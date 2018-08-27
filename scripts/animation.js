@@ -1,5 +1,5 @@
 var context = document.getElementById('canvas').getContext('2d');
-var width = 1300, height = 300;
+var width = 1268, height = 260;
 var contextBuf = document.createElement('canvas').getContext('2d');
 contextBuf.canvas.width = width;
 contextBuf.canvas.height = height;
@@ -9,24 +9,27 @@ var girl = loadImage(
   216,
   10
 );
+var back = loadImage(
+  './resources/Back.jpg',
+  1268,
+  260,
+  1
+);
 var iter = document.getElementById('iter');
 var i = 0;
+var x = 0;
+
+document.addEventListener("keydown", keyPush);
+
 
 var timer = setInterval(
   drawStep,
-  75
+  50
 );
 
-setTimeout(function() {
-  clearInterval(timer);
-  alert( 'стоп' );
-}, 10010);
-
 function drawStep() {
-  contextBuf.fillStyle = '#fff';
-  contextBuf.fillRect( 0, 0, width, height);
-  drawImage(girl, 0, 0);
-  drawImage(girl, 500, 0);
+  drawImage(back, 0, 0);
+  drawImage(girl, x, 260 - 216);
   context.save();
   //blank();
   context.drawImage(contextBuf.canvas, 0, 0, width, height);
@@ -73,4 +76,19 @@ function loadImage(path, width, height, count) {
   img.src = path;
 
   return result;
+}
+
+function keyPush (evt) {
+  switch(evt.keyCode) {
+    case 37:
+      x -= 27;
+      if (x < 0) x = 0;
+      break;
+    case 39:
+      x += 27;
+      if (x > 1052) x = 1052;
+      break;
+    default:
+      break;
+  }
 }
